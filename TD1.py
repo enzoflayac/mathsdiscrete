@@ -17,7 +17,6 @@ class Graphe:
     def __init__(self):
         self.nombre_sommet=0
         self.liste_aretes=[]
-
     def saisie_graphe(self):
         self.nombre_sommet=int(input("Entrez le nombre de sommet de votre graphe : "))
         enter=0
