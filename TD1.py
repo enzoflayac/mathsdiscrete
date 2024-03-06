@@ -1,9 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-Spyder Editor
 
-This is a temporary script file.
-"""
 
 class Arete:
     def __init__(self):
@@ -31,13 +26,32 @@ class Graphe:
             self.liste_aretes.append(enter)
         return self.liste_aretes
     def adjacence(self):
+        liste_matrice=[]
         for i in range(self.nombre_sommet):
+            initialisation_ligne=[]
             for j in range(self.nombre_sommet):
-                if self.liste_aretes[i][j]
-
-    
-    
+                initialisation_ligne.append(0)
+            liste_matrice.append(initialisation_ligne)
+        print(liste_matrice)
+        for i in range(self.nombre_sommet):
+            liste_temp=[self.liste_aretes[i][0],self.liste_aretes[i][1]]
+            if liste_matrice[liste_temp[0]-1][liste_temp[1]-1] == 0 and liste_matrice[liste_temp[1]-1][liste_temp[0]-1] == 0 :
+                liste_matrice[liste_temp[0]-1][liste_temp[1]-1]=1
+                liste_matrice[liste_temp[1]-1][liste_temp[0]-1]=1
+            else:
+                print(f"L'arrête {self.liste_aretes[i]} est déjà existante.")
+        return liste_matrice
+    def afficher_matrice(self):
+        liste_matrice=self.adjacence()
+        iteration=len(liste_matrice)
+        print("")
+        for i in range(iteration):
+            for j in range(iteration):
+                print(liste_matrice[i][j], end=" ")
+            print("")
 arete=Arete()
 graphe=Graphe()
+
 print(graphe.saisie_graphe())
-        
+print(graphe.adjacence())
+graphe.afficher_matrice()
