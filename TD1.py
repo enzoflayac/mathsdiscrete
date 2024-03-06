@@ -32,14 +32,11 @@ class Graphe:
             for j in range(self.nombre_sommet):
                 initialisation_ligne.append(0)
             liste_matrice.append(initialisation_ligne)
-        print(liste_matrice)
         for i in range(self.nombre_sommet):
             liste_temp=[self.liste_aretes[i][0],self.liste_aretes[i][1]]
             if liste_matrice[liste_temp[0]-1][liste_temp[1]-1] == 0 and liste_matrice[liste_temp[1]-1][liste_temp[0]-1] == 0 :
                 liste_matrice[liste_temp[0]-1][liste_temp[1]-1]=1
                 liste_matrice[liste_temp[1]-1][liste_temp[0]-1]=1
-            else:
-                print(f"L'arrête {self.liste_aretes[i]} est déjà existante.")
         return liste_matrice
     def afficher_matrice(self):
         liste_matrice=self.adjacence()
