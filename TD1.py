@@ -1,5 +1,3 @@
-
-
 class Arete:
     def __init__(self):
         self.sommet_initial=0

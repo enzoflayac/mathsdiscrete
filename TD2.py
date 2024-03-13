@@ -1,7 +1,3 @@
-M1=[[1,3,1],[2,3,1],[1,2,1]]
-M2=[[2,3,1],[1,3,1],[1,2,1]]
-taille=3
-
 taille= int(input(" Quel est le nombre de colones de vos matrices carrées ?"))
 
 def entree_matrice():
@@ -15,6 +11,7 @@ def entree_matrice():
         L.append(Listtemp)
         Listtemp=[]
     print(L)
+    return L
 
 M1=entree_matrice()
 M2=entree_matrice()
