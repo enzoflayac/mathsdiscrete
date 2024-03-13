@@ -49,5 +49,8 @@ arete=Arete()
 graphe=Graphe()
 
 print(graphe.saisie_graphe())
-print(graphe.adjacence())
+M=graphe.adjacence()
+print(M)
 graphe.afficher_matrice()
+
+
