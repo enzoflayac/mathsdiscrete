@@ -84,14 +84,14 @@ def puissance (M,n):
 
 
 def matricetransitive(g):
-    mt=[matriceidentité(),g]
+    mt=somme(matriceidentité(),g)
+    condition=[matriceidentité(),g]
     i=2
-    print
-    while mt[-1]!=mt[-2]:
-        print(puissance(g,i))
-        mt.append(puissance(g,i))
+    while egal(condition[-1], condition[-2])==False:
+        mt=somme(mt,puissance(g,i))
         i+=1
-        
-    return mt[-1]
+        print(mt)
+        condition.append(mt)
+    return mt
 
 print(matricetransitive(m1))
