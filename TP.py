@@ -14,29 +14,72 @@ class Arete:
 class Graphe:
     def __init__(self):
         self.nombre_sommet=0
-        self.liste_aretes=[]
+        self.liste_aretes=[
+        [1,2,3],[1,4,6],[1,10,9],
+        [2,3,2],[2,4,4],[2,10,9],[2,9,9],
+        [3,4,2],[3,5,9],[3,9,8],
+        [4,5,9],
+        [5,6,4],[5,7,5],[5,9,7],
+        [6,7,1],[6,8,4],
+        [7,8,3],[7,9,9],
+        [8,9,10],[8,10,10],
+        [9,10,8]]
     def saisie_graphe(self):
-        self.nombre_sommet=int(input("Entrez le nombre de sommet de votre graphe : "))
+        self.nombre_sommet=int(input("Entrez le nombre d'aretes de votre graphe : "))
         enter=0
         for i in range(self.nombre_sommet):
             enter=arete.saisie_arete()
             self.liste_aretes.append(enter)
         return self.liste_aretes
     def tri_par_cout(self):
-        liste_aretes=self.saisie_graphe()
+        liste_aretes=self.liste_aretes
         liste_aretes= sorted(liste_aretes, key= lambda x: x[2])
         print(liste_aretes)
         return liste_aretes
 
     def ajout_arbre_couvant(self):
-        listes_triees=self.tri_par_cout()
-        arbre_couvant=[]
-        for i in range(2):
-            arbre_couvant.append(listes_triees[i])
-        for i in range(len(listes_triees)-2):
-            for j in range(len(arbre_couvant)-1):
-                if ((listes_triees[i+2][0]==listes_triees[j][1]) and (listes_triees[i+2][1]==listes_triees[j+1][0])) or ((listes_triees[i+2][1]==listes_triees[j][0]) and (listes_triees[i+2][0]==listes_triees[j+1][1])):
-                    print("cycle")
+        listes_triees = self.tri_par_cout()
+        arbre_couvant = []
+
+        for arete in listes_triees:
+            if len(arbre_couvant) == 0:
+                arbre_couvant.append(arete)
+            else:
+                cycle = False
+                for edge in arbre_couvant:
+                    if (arete[0] == edge[0] and arete[1] == edge[1]) or (arete[0] == edge[1] and arete[1] == edge[0]):
+                        cycle = True
+                        break
+                    if self.detect_cycle(arete, arbre_couvant):
+                        cycle = True
+                        break
+                if not cycle:
+                    arbre_couvant.append(arete)
+
+        print("Arbre couvrant minimal (Kruskal) :", arbre_couvant)
+
+    def detect_cycle(self, arete, arbre_couvant):
+        sommets_visites = set()
+        for edge in arbre_couvant:
+            sommets_visites.add(edge[0])
+            sommets_visites.add(edge[1])
+
+        visited = set()
+        queue = [arete[0]]
+
+        while queue:
+            sommet = queue.pop(0)
+            if sommet == arete[1]:
+                return True
+            visited.add(sommet)
+            for edge in arbre_couvant:
+                if edge[0] == sommet and edge[1] not in visited:
+                    queue.append(edge[1])
+                elif edge[1] == sommet and edge[0] not in visited:
+                    queue.append(edge[0])
+
+        return False
+
     def adjacence(self):
         liste_matrice=[]
         for i in range(self.nombre_sommet):
@@ -58,11 +101,16 @@ class Graphe:
             for j in range(iteration):
                 print(liste_matrice[i][j], end=" ")
             print("")
+
+
+#M=graphe.adjacence()
+#print(M)
+#graphe.afficher_matrice()
+
 arete=Arete()
 graphe=Graphe()
-print(graphe.ajout_arbre_couvant())
+graphe.ajout_arbre_couvant()
 M=graphe.adjacence()
-print(M)
 graphe.afficher_matrice()
 
 
