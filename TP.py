@@ -1,3 +1,7 @@
+import networkx as nx
+import matplotlib.pyplot as plt 
+import numpy as np
+
 class Arete:
     def __init__(self):
         self.sommet_initial=0
@@ -14,6 +18,7 @@ class Arete:
 class Graphe:
     def __init__(self):
         self.nombre_sommet=0
+        self.arbre_couvant=[]
         self.liste_aretes=[
         [1,2,3],[1,4,6],[1,10,9],
         [2,3,2],[2,4,4],[2,10,9],[2,9,9],
@@ -39,24 +44,23 @@ class Graphe:
 
     def ajout_arbre_couvant(self):
         listes_triees = self.tri_par_cout()
-        arbre_couvant = []
 
         for arete in listes_triees:
-            if len(arbre_couvant) == 0:
-                arbre_couvant.append(arete)
+            if len(self.arbre_couvant) == 0:
+                self.arbre_couvant.append(arete)
             else:
                 cycle = False
-                for edge in arbre_couvant:
+                for edge in self.arbre_couvant:
                     if (arete[0] == edge[0] and arete[1] == edge[1]) or (arete[0] == edge[1] and arete[1] == edge[0]):
                         cycle = True
                         break
-                    if self.detect_cycle(arete, arbre_couvant):
+                    if self.detect_cycle(arete, self.arbre_couvant):
                         cycle = True
                         break
                 if not cycle:
-                    arbre_couvant.append(arete)
+                    self.arbre_couvant.append(arete)
 
-        print("Arbre couvrant minimal (Kruskal) :", arbre_couvant)
+        print("Arbre couvrant minimal (Kruskal) :", self.arbre_couvant)
 
     def detect_cycle(self, arete, arbre_couvant):
         sommets_visites = set()
@@ -79,16 +83,24 @@ class Graphe:
                     queue.append(edge[0])
 
         return False
-
+    def nbr_sommet_arbre_couvant(self):
+        liste_nbr_sommet_abre_couvant=[]
+        for i in range(len(self.arbre_couvant)):
+            for j in range(2):
+                if self.arbre_couvant[i][j] not in liste_nbr_sommet_abre_couvant:
+                    liste_nbr_sommet_abre_couvant.append(self.arbre_couvant[i][j])
+        return len(liste_nbr_sommet_abre_couvant)
+    
     def adjacence(self):
         liste_matrice=[]
-        for i in range(self.nombre_sommet):
+        nbr_arrete_arbre_couvant=self.nbr_sommet_arbre_couvant()
+        for i in range(nbr_arrete_arbre_couvant):
             initialisation_ligne=[]
-            for j in range(self.nombre_sommet):
+            for j in range(nbr_arrete_arbre_couvant):
                 initialisation_ligne.append(0)
             liste_matrice.append(initialisation_ligne)
-        for i in range(self.nombre_sommet):
-            liste_temp=[self.liste_aretes[i][0],self.liste_aretes[i][1]]
+        for i in range(nbr_arrete_arbre_couvant-1):
+            liste_temp=[self.arbre_couvant[i][0],self.arbre_couvant[i][1]]
             if liste_matrice[liste_temp[0]-1][liste_temp[1]-1] == 0 and liste_matrice[liste_temp[1]-1][liste_temp[0]-1] == 0 :
                 liste_matrice[liste_temp[0]-1][liste_temp[1]-1]=1
                 liste_matrice[liste_temp[1]-1][liste_temp[0]-1]=1
@@ -102,6 +114,11 @@ class Graphe:
                 print(liste_matrice[i][j], end=" ")
             print("")
 
+def dessin_graphe(M):
+    for i in range(len(M)):
+        M[i].pop()
+    print("M : ", M)
+    
 
 #M=graphe.adjacence()
 #print(M)
@@ -110,7 +127,12 @@ class Graphe:
 arete=Arete()
 graphe=Graphe()
 graphe.ajout_arbre_couvant()
+graphe.nbr_sommet_arbre_couvant()
 M=graphe.adjacence()
-graphe.afficher_matrice()
+print(M)
+J = np.array(M)
+G = nx.Graph(J)
+nx.draw(G, with_labels=True)
+plt.show
 
 
