@@ -114,12 +114,6 @@ class Graphe:
                 print(liste_matrice[i][j], end=" ")
             print("")
 
-def dessin_graphe(M):
-    for i in range(len(M)):
-        M[i].pop()
-    print("M : ", M)
-    
-
 #M=graphe.adjacence()
 #print(M)
 #graphe.afficher_matrice()
@@ -128,11 +122,49 @@ arete=Arete()
 graphe=Graphe()
 graphe.ajout_arbre_couvant()
 graphe.nbr_sommet_arbre_couvant()
-M=graphe.adjacence()
-print(M)
-J = np.array(M)
-G = nx.Graph(J)
-nx.draw(G, with_labels=True)
-plt.show
+graphe.afficher_matrice()
+
+# Création d'un objet de graphe non dirigé
+G = nx.Graph()
+
+# Ajout des arêtes à partir de l'arbre couvrant minimal
+for arete in graphe.arbre_couvant:
+    G.add_edge(arete[1], arete[0])
+
+# Création d'un dictionnaire pour associer des noms aux sommets
+noms_sommets = {
+    1: 'Bordeaux',
+    2: 'Nantes',
+    3: 'Paris',
+    4: 'Rennes',
+    5: 'Rouen',
+    6: 'Lille',
+    7: 'Nancy',
+    8: 'Strasbourg',
+    9: 'Lyon',
+    10: 'Marseille'
+}
+
+positions = {
+    1: (0, -1),
+    2: (1, 1),
+    3: (3, 2),
+    4: (2, 3),
+    5: (5, 4),
+    6: (6, 5),
+    7: (7, 3),
+    8: (8, 2),
+    9: (4, 1),
+    10: (4, -3)
+}
+
+# Dessin du graphe avec les noms des sommets
+pos = nx.spring_layout(G)  # Positionnement des nœuds
+nx.draw(G, pos=positions, with_labels=True, labels=noms_sommets, node_color='lightblue', node_size=1000)  # Dessin du graphe avec les noms des sommets
+labels = nx.get_edge_attributes(G, 'weight')  # Obtention des poids des arêtes
+nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)  # Dessin des poids des arêtes
+
+plt.title("Graphe de l'arbre couvrant minimal avec noms de sommets")
+plt.show()
 
 
