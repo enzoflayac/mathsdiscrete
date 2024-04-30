@@ -3,11 +3,14 @@ import matplotlib.pyplot as plt  # Importation de la bibliothèque matplotlib po
 import numpy as np  # Importation de la bibliothèque numpy pour les calculs numériques
 
 class Arete:  # Définition de la classe Arete pour représenter une arête dans un graphe
+    
     def __init__(self):  # Définition du constructeur
         self.sommet_initial = 0  # Initialisation du sommet initial de l'arête
         self.sommet_final = 0  # Initialisation du sommet final de l'arête
         self.cout_arete = 0  # Initialisation du coût de l'arête
         
+    
+    
     def saisie_arete(self):  # Méthode pour saisir les détails d'une arête
         self.sommet_initial = int(input("Entrez le sommet initial : "))  # Saisie du sommet initial
         self.sommet_final = int(input("Entrez le sommet final : "))  # Saisie du sommet final
@@ -15,6 +18,7 @@ class Arete:  # Définition de la classe Arete pour représenter une arête dans
         return (self.sommet_initial, self.sommet_final, self.cout_arete)  # Retourne les détails de l'arête sous forme de tuple
         
 class Graphe:  # Définition de la classe Graphe pour représenter un graphe
+    
     def __init__(self):  # Définition du constructeur
         self.nombre_sommet = 0  # Initialisation du nombre de sommets dans le graphe
         self.arbre_couvant = []  # Initialisation de la liste des arêtes de l'arbre couvrant minimal
@@ -30,6 +34,8 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
         [9, 10, 8]
         ]
         
+    
+    
     def saisie_graphe(self):  # Méthode pour saisir les détails du graphe (non utilisée dans ce script)
         self.nombre_sommet = int(input("Entrez le nombre d'arêtes de votre graphe : "))  # Saisie du nombre d'arêtes
         enter = 0  # Initialisation d'une variable pour la saisie des arêtes
@@ -38,11 +44,15 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
             self.liste_aretes.append(enter)  # Ajout de l'arête à la liste des arêtes du graphe
         return self.liste_aretes  # Retourne la liste des arêtes du graphe
     
+    
+    
     def tri_par_cout(self):  # Méthode pour trier les arêtes par coût
         liste_aretes = self.liste_aretes  # Récupération de la liste des arêtes du graphe
         liste_aretes = sorted(liste_aretes, key=lambda x: x[2])  # Tri de la liste des arêtes par le troisième élément (coût)
         print(liste_aretes)  # Affichage des arêtes triées par coût
         return liste_aretes  # Retourne la liste des arêtes triées par coût
+    
+    
     
     def ajout_arbre_couvant(self):  # Méthode pour trouver l'arbre couvrant minimal (algorithme de Kruskal)
         listes_triees = self.tri_par_cout()  # Appel de la méthode tri_par_cout pour trier les arêtes par coût
@@ -63,6 +73,8 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
                     self.arbre_couvant.append(arete)  # Ajout de l'arête à l'arbre couvrant
 
         print("Arbre couvrant minimal (Kruskal) :", self.arbre_couvant)  # Affichage de l'arbre couvrant minimal
+    
+    
     
     def detect_cycle(self, arete, arbre_couvant):  # Méthode pour détecter les cycles dans l'arbre couvrant
         sommets_visites = set()  # Initialisation d'un ensemble pour stocker les sommets visités
