@@ -9,6 +9,8 @@ class Arete:  # Définition de la classe Arete pour représenter une arête dans
         self.sommet_final = 0  # Initialisation du sommet final de l'arête
         self.cout_arete = 0  # Initialisation du coût de l'arête
         
+    
+    
     def saisie_arete(self):  # Méthode pour saisir les détails d'une arête
         self.sommet_initial = int(input("Entrez le sommet initial : "))  # Saisie du sommet initial
         self.sommet_final = int(input("Entrez le sommet final : "))  # Saisie du sommet final
@@ -17,10 +19,20 @@ class Arete:  # Définition de la classe Arete pour représenter une arête dans
         
 class Graphe:  # Définition de la classe Graphe pour représenter un graphe
     
-    def __init__(self,aretes):  # Définition du constructeur
+    def __init__(self):  # Définition du constructeur
         self.nombre_sommet = 0  # Initialisation du nombre de sommets dans le graphe
         self.arbre_couvant = []  # Initialisation de la liste des arêtes de l'arbre couvrant minimal
-        self.liste_aretes = aretes
+        self.liste_aretes = [  # Initialisation d'une liste d'arêtes prédéfinies
+        [1, 2, 3], [1, 4, 6], [1, 10, 9],
+        [2, 3, 2], [2, 4, 4], [2, 10, 9], [2, 9, 9],
+        [3, 4, 2], [3, 5, 9], [3, 9, 8],
+        [4, 5, 9],
+        [5, 6, 4], [5, 7, 5], [5, 9, 7],
+        [6, 7, 1], [6, 8, 4],
+        [7, 8, 3], [7, 9, 9],
+        [8, 9, 10], [8, 10, 10],
+        [9, 10, 8]
+        ]
         
     
     
@@ -65,7 +77,6 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
     
     
     def detect_cycle(self, arete, arbre_couvant):  # Méthode pour détecter les cycles dans l'arbre couvrant
-        
         sommets_visites = set()  # Initialisation d'un ensemble pour stocker les sommets visités
         for edge in arbre_couvant:  # Parcours des arêtes de l'arbre couvrant
             sommets_visites.add(edge[0])  # Ajout du sommet initial à l'ensemble
@@ -96,29 +107,24 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
         return len(liste_nbr_sommet_abre_couvant)  # Retourne le nombre de sommets de l'arbre couvrant
     
     def adjacence(self):  # Méthode pour générer la matrice d'adjacence de l'arbre couvrant
-        
         liste_matrice = []  # Initialisation de la liste pour stocker la matrice d'adjacence
         nbr_arrete_arbre_couvant = self.nbr_sommet_arbre_couvant()  # Récupération du nombre de sommets de l'arbre couvrant
-        
         for i in range(nbr_arrete_arbre_couvant):  # Parcours des sommets de l'arbre couvrant
             initialisation_ligne = []  # Initialisation de la ligne de la matrice d'adjacence
             for j in range(nbr_arrete_arbre_couvant):  # Parcours des sommets de l'arbre couvrant
                 initialisation_ligne.append(0)  # Ajout de 0 à la ligne de la matrice d'adjacence
             liste_matrice.append(initialisation_ligne)  # Ajout de la ligne à la liste de la matrice d'adjacence
-        
         for i in range(nbr_arrete_arbre_couvant - 1):  # Parcours des arêtes de l'arbre couvrant
             liste_temp = [self.arbre_couvant[i][0], self.arbre_couvant[i][1]]  # Récupération des sommets de l'arête
             if liste_matrice[liste_temp[0] - 1][liste_temp[1] - 1] == 0 and liste_matrice[liste_temp[1] - 1][liste_temp[0] - 1] == 0:
                 liste_matrice[liste_temp[0] - 1][liste_temp[1] - 1] = 1  # Ajout de 1 à la position correspondante dans la matrice
                 liste_matrice[liste_temp[1] - 1][liste_temp[0] - 1] = 1  # Ajout de 1 à la position correspondante dans la matrice
-        
         return liste_matrice  # Retourne la matrice d'adjacence de l'arbre couvrant
     
     def afficher_matrice(self):  # Méthode pour afficher la matrice d'adjacence de l'arbre couvrant
-        
         liste_matrice = self.adjacence()  # Récupération de la matrice d'adjacence de l'arbre couvrant
         iteration = len(liste_matrice)  # Calcul du nombre d'itérations
-        print("\nMatrice d'adjacence de l'arbre couvant minimal :\n")  # Affichage d'une ligne vide
+        print("")  # Affichage d'une ligne vide
         for i in range(iteration):  # Parcours des lignes de la matrice
             for j in range(iteration):  # Parcours des colonnes de la matrice
                 print(liste_matrice[i][j], end=" ")  # Affichage de chaque élément de la matrice
@@ -126,32 +132,8 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
 
 # Création d'un objet Arete
 arete = Arete()
-
-def saisie_graphe_depart():
-    condition = input("Voulez vous saisir arete par arete ou utiliser le graphe natif ? [ oui / non ]\n-> ")
-    if condition == "oui":
-        nbr_sommet = int(input("Entrez le nombre de d'arrêtes de votre graphe : \n->"))
-        aretes=[]
-        for i in range(nbr_sommet):
-            aretes.append(arete.saisie_arete())
-        return aretes
-    else:
-        aretes = [  # Initialisation d'une liste d'arêtes prédéfinies
-        [1, 2, 3], [1, 4, 6], [1, 10, 9],
-        [2, 3, 2], [2, 4, 4], [2, 10, 9], [2, 9, 9],
-        [3, 4, 2], [3, 5, 9], [3, 9, 8],
-        [4, 5, 9],
-        [5, 6, 4], [5, 7, 5], [5, 9, 7],
-        [6, 7, 1], [6, 8, 4],
-        [7, 8, 3], [7, 9, 9],
-        [8, 9, 10], [8, 10, 10],
-        [9, 10, 8]
-        ]
-        return aretes
-
-aretes = saisie_graphe_depart()
 # Création d'un objet Graphe
-graphe = Graphe(aretes)
+graphe = Graphe()
 # Appel de la méthode ajout_arbre_couvant pour trouver l'arbre couvrant minimal
 graphe.ajout_arbre_couvant()
 # Appel de la méthode afficher_matrice pour afficher la matrice d'adjacence de l'arbre couvrant
@@ -164,13 +146,38 @@ G = nx.Graph()
 for arete in graphe.arbre_couvant:
     G.add_edge(arete[1], arete[0])
 
+# Création d'un dictionnaire pour associer des noms aux sommets
+noms_sommets = {
+    1: 'Bordeaux',
+    2: 'Nantes',
+    3: 'Paris',
+    4: 'Rennes',
+    5: 'Rouen',
+    6: 'Lille',
+    7: 'Nancy',
+    8: 'Strasbourg',
+    9: 'Lyon',
+    10: 'Marseille'
+}
+
+positions = {
+    1: (0, -1),
+    2: (1, 1),
+    3: (3, 2),
+    4: (2, 3),
+    5: (5, 4),
+    6: (6, 5),
+    7: (7, 3),
+    8: (8, 2),
+    9: (4, 1),
+    10: (4, -3)
+}
+
 # Dessin du graphe avec les noms des sommets
 pos = nx.spring_layout(G)  # Positionnement des nœuds
-nx.draw(G, with_labels=True, node_color='lightblue', node_size=1000)  # Dessin du graphe avec les noms des sommets
+nx.draw(G, pos=positions, with_labels=True, labels=noms_sommets, node_color='lightblue', node_size=1000)  # Dessin du graphe avec les noms des sommets
 labels = nx.get_edge_attributes(G, 'weight')  # Obtention des poids des arêtes
 nx.draw_networkx_edge_labels(G, pos, edge_labels=labels)  # Dessin des poids des arêtes
 
 plt.title("Graphe de l'arbre couvrant minimal avec noms de sommets")
 plt.show()
-
-#Si vous voulez modifier le graphe de base avant que l'algorithme l'analyse et le traite vous pouvez modifier la liste ligne 24
