@@ -21,17 +21,6 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
         self.nombre_sommet = 0  # Initialisation du nombre de sommets dans le graphe
         self.arbre_couvant = []  # Initialisation de la liste des arêtes de l'arbre couvrant minimal
         self.liste_aretes = aretes
-        
-    
-    
-    def saisie_graphe(self):  # Méthode pour saisir les détails du graphe (non utilisée dans ce script)
-        self.nombre_sommet = int(input("Entrez le nombre d'arêtes de votre graphe : "))  # Saisie du nombre d'arêtes
-        enter = 0  # Initialisation d'une variable pour la saisie des arêtes
-        for i in range(self.nombre_sommet):  # Boucle pour saisir chaque arête
-            enter = arete.saisie_arete()  # Appel de la méthode saisie_arete de la classe Arete
-            self.liste_aretes.append(enter)  # Ajout de l'arête à la liste des arêtes du graphe
-        return self.liste_aretes  # Retourne la liste des arêtes du graphe
-    
     
     
     def tri_par_cout(self):  # Méthode pour trier les arêtes par coût
@@ -51,9 +40,6 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
             else:
                 cycle = False  # Initialisation d'un indicateur de cycle à False
                 for edge in self.arbre_couvant:  # Parcours des arêtes de l'arbre couvrant
-                    if (arete[0] == edge[0] and arete[1] == edge[1]) or (arete[0] == edge[1] and arete[1] == edge[0]):
-                        cycle = True  # S'il y a un cycle, on met l'indicateur à True
-                        break
                     if self.detect_cycle(arete, self.arbre_couvant):
                         cycle = True  # S'il y a un cycle, on met l'indicateur à True
                         break
