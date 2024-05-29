@@ -26,7 +26,7 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
     def tri_par_cout(self):  # Méthode pour trier les arêtes par coût
         liste_aretes = self.liste_aretes  # Récupération de la liste des arêtes du graphe
         liste_aretes = sorted(liste_aretes, key=lambda x: x[2])  # Tri de la liste des arêtes par le troisième élément (coût)
-        print('\nListe des arêtes triée par coût :\n',liste_aretes,'\n')  # Affichage des arêtes triées par coût
+        print('\nListe des arêtes triées par coût :\n',liste_aretes,'\n')  # Affichage des arêtes triées par coût
         return liste_aretes  # Retourne la liste des arêtes triées par coût
     
     

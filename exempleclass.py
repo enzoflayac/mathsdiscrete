@@ -8,7 +8,7 @@ class Arete:  # Définition de la classe Arete pour représenter une arête dans
         self.sommet_initial = 0  # Initialisation du sommet initial de l'arête
         self.sommet_final = 0  # Initialisation du sommet final de l'arête
         self.cout_arete = 0  # Initialisation du coût de l'arête
-        
+    
     
     
     def saisie_arete(self):  # Méthode pour saisir les détails d'une arête
@@ -21,7 +21,7 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
     
     def __init__(self):  # Définition du constructeur
         self.nombre_sommet = 0  # Initialisation du nombre de sommets dans le graphe
-        self.arbre_couvant = []  # Initialisation de la liste des arêtes de l'arbre couvrant minimal
+        self.arbre_couvrant = []  # Initialisation de la liste des arêtes de l'arbre couvrant minimal
         self.liste_aretes = [  # Initialisation d'une liste d'arêtes prédéfinies
         [1, 2, 3], [1, 4, 6], [1, 10, 9],
         [2, 3, 2], [2, 4, 4], [2, 10, 9], [2, 9, 9],
@@ -49,36 +49,36 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
     def tri_par_cout(self):  # Méthode pour trier les arêtes par coût
         liste_aretes = self.liste_aretes  # Récupération de la liste des arêtes du graphe
         liste_aretes = sorted(liste_aretes, key=lambda x: x[2])  # Tri de la liste des arêtes par le troisième élément (coût)
-        print(liste_aretes)  # Affichage des arêtes triées par coût
+        print('\nListe des arêtes triée par coût :\n',liste_aretes,'\n')  # Affichage des arêtes triées par coût
         return liste_aretes  # Retourne la liste des arêtes triées par coût
     
     
     
-    def ajout_arbre_couvant(self):  # Méthode pour trouver l'arbre couvrant minimal (algorithme de Kruskal)
+    def ajout_arbre_couvrant(self):  # Méthode pour trouver l'arbre couvrant minimal (algorithme de Kruskal)
         listes_triees = self.tri_par_cout()  # Appel de la méthode tri_par_cout pour trier les arêtes par coût
 
         for arete in listes_triees:  # Parcours des arêtes triées par coût
-            if len(self.arbre_couvant) == 0:  # Si l'arbre couvrant est vide
-                self.arbre_couvant.append(arete)  # Ajout de l'arête à l'arbre couvrant
+            if len(self.arbre_couvrant) == 0:  # Si l'arbre couvrant est vide
+                self.arbre_couvrant.append(arete)  # Ajout de l'arête à l'arbre couvrant
             else:
                 cycle = False  # Initialisation d'un indicateur de cycle à False
-                for edge in self.arbre_couvant:  # Parcours des arêtes de l'arbre couvrant
+                for edge in self.arbre_couvrant:  # Parcours des arêtes de l'arbre couvrant
                     if (arete[0] == edge[0] and arete[1] == edge[1]) or (arete[0] == edge[1] and arete[1] == edge[0]):
                         cycle = True  # S'il y a un cycle, on met l'indicateur à True
                         break
-                    if self.detect_cycle(arete, self.arbre_couvant):
+                    if self.detect_cycle(arete, self.arbre_couvrant):
                         cycle = True  # S'il y a un cycle, on met l'indicateur à True
                         break
                 if not cycle:  # Si aucun cycle n'a été détecté
-                    self.arbre_couvant.append(arete)  # Ajout de l'arête à l'arbre couvrant
+                    self.arbre_couvrant.append(arete)  # Ajout de l'arête à l'arbre couvrant
 
-        print("Arbre couvrant minimal (Kruskal) :", self.arbre_couvant)  # Affichage de l'arbre couvrant minimal
+        print("Arbre couvrant minimal (Kruskal) :", self.arbre_couvrant)  # Affichage de l'arbre couvrant minimal
     
     
     
-    def detect_cycle(self, arete, arbre_couvant):  # Méthode pour détecter les cycles dans l'arbre couvrant
+    def detect_cycle(self, arete, arbre_couvrant):  # Méthode pour détecter les cycles dans l'arbre couvrant
         sommets_visites = set()  # Initialisation d'un ensemble pour stocker les sommets visités
-        for edge in arbre_couvant:  # Parcours des arêtes de l'arbre couvrant
+        for edge in arbre_couvrant:  # Parcours des arêtes de l'arbre couvrant
             sommets_visites.add(edge[0])  # Ajout du sommet initial à l'ensemble
             sommets_visites.add(edge[1])  # Ajout du sommet final à l'ensemble
 
@@ -90,7 +90,7 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
             if sommet == arete[1]:  # Si le sommet est égal au sommet final de l'arête
                 return True  # Il y a un cycle, on retourne True
             visited.add(sommet)  # Ajout du sommet à l'ensemble des sommets visités
-            for edge in arbre_couvant:  # Parcours des arêtes de l'arbre couvrant
+            for edge in arbre_couvrant:  # Parcours des arêtes de l'arbre couvrant
                 if edge[0] == sommet and edge[1] not in visited:  # Si le sommet est le sommet initial de l'arête et que le sommet final n'a pas été visité
                     queue.append(edge[1])  # Ajout du sommet final à la file
                 elif edge[1] == sommet and edge[0] not in visited:  # Si le sommet est le sommet final de l'arête et que le sommet initial n'a pas été visité
@@ -98,24 +98,24 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
 
         return False  # S'il n'y a pas de cycle, on retourne False
     
-    def nbr_sommet_arbre_couvant(self):  # Méthode pour compter le nombre de sommets dans l'arbre couvrant
+    def nbr_sommet_arbre_couvrant(self):  # Méthode pour compter le nombre de sommets dans l'arbre couvrant
         liste_nbr_sommet_abre_couvant = []  # Initialisation d'une liste pour stocker les sommets de l'arbre couvrant
-        for i in range(len(self.arbre_couvant)):  # Parcours des arêtes de l'arbre couvrant
+        for i in range(len(self.arbre_couvrant)):  # Parcours des arêtes de l'arbre couvrant
             for j in range(2):  # Parcours des sommets de chaque arête
-                if self.arbre_couvant[i][j] not in liste_nbr_sommet_abre_couvant:  # Si le sommet n'est pas déjà dans la liste
-                    liste_nbr_sommet_abre_couvant.append(self.arbre_couvant[i][j])  # Ajout du sommet à la liste
+                if self.arbre_couvrant[i][j] not in liste_nbr_sommet_abre_couvant:  # Si le sommet n'est pas déjà dans la liste
+                    liste_nbr_sommet_abre_couvant.append(self.arbre_couvrant[i][j])  # Ajout du sommet à la liste
         return len(liste_nbr_sommet_abre_couvant)  # Retourne le nombre de sommets de l'arbre couvrant
     
     def adjacence(self):  # Méthode pour générer la matrice d'adjacence de l'arbre couvrant
         liste_matrice = []  # Initialisation de la liste pour stocker la matrice d'adjacence
-        nbr_arrete_arbre_couvant = self.nbr_sommet_arbre_couvant()  # Récupération du nombre de sommets de l'arbre couvrant
-        for i in range(nbr_arrete_arbre_couvant):  # Parcours des sommets de l'arbre couvrant
+        nbr_arrete_arbre_couvrant = self.nbr_sommet_arbre_couvrant()  # Récupération du nombre de sommets de l'arbre couvrant
+        for i in range(nbr_arrete_arbre_couvrant):  # Parcours des sommets de l'arbre couvrant
             initialisation_ligne = []  # Initialisation de la ligne de la matrice d'adjacence
-            for j in range(nbr_arrete_arbre_couvant):  # Parcours des sommets de l'arbre couvrant
+            for j in range(nbr_arrete_arbre_couvrant):  # Parcours des sommets de l'arbre couvrant
                 initialisation_ligne.append(0)  # Ajout de 0 à la ligne de la matrice d'adjacence
             liste_matrice.append(initialisation_ligne)  # Ajout de la ligne à la liste de la matrice d'adjacence
-        for i in range(nbr_arrete_arbre_couvant - 1):  # Parcours des arêtes de l'arbre couvrant
-            liste_temp = [self.arbre_couvant[i][0], self.arbre_couvant[i][1]]  # Récupération des sommets de l'arête
+        for i in range(nbr_arrete_arbre_couvrant - 1):  # Parcours des arêtes de l'arbre couvrant
+            liste_temp = [self.arbre_couvrant[i][0], self.arbre_couvrant[i][1]]  # Récupération des sommets de l'arête
             if liste_matrice[liste_temp[0] - 1][liste_temp[1] - 1] == 0 and liste_matrice[liste_temp[1] - 1][liste_temp[0] - 1] == 0:
                 liste_matrice[liste_temp[0] - 1][liste_temp[1] - 1] = 1  # Ajout de 1 à la position correspondante dans la matrice
                 liste_matrice[liste_temp[1] - 1][liste_temp[0] - 1] = 1  # Ajout de 1 à la position correspondante dans la matrice
@@ -134,8 +134,8 @@ class Graphe:  # Définition de la classe Graphe pour représenter un graphe
 arete = Arete()
 # Création d'un objet Graphe
 graphe = Graphe()
-# Appel de la méthode ajout_arbre_couvant pour trouver l'arbre couvrant minimal
-graphe.ajout_arbre_couvant()
+# Appel de la méthode ajout_arbre_couvrant pour trouver l'arbre couvrant minimal
+graphe.ajout_arbre_couvrant()
 # Appel de la méthode afficher_matrice pour afficher la matrice d'adjacence de l'arbre couvrant
 graphe.afficher_matrice()
 
@@ -143,7 +143,7 @@ graphe.afficher_matrice()
 G = nx.Graph()
 
 # Ajout des arêtes à partir de l'arbre couvrant minimal
-for arete in graphe.arbre_couvant:
+for arete in graphe.arbre_couvrant:
     G.add_edge(arete[1], arete[0])
 
 # Création d'un dictionnaire pour associer des noms aux sommets
